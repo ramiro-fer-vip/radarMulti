@@ -73,6 +73,17 @@ npm run lint
 
 ## Historial de versiones
 
+### v1.0.0.18 (2026-08-13)
+- **Fix localización dropdowns**: Los valores de `Posición de barra`, `Posición de leyenda` y `Formato de valor` ahora se traducen correctamente (resolución de `Enum_*` vía `localizationManager`)
+- **Robustez**: Eliminado `null as any` en render de polígonos multi-segmento
+- **Fix dataReductionAlgorithm**: Eliminado el límite de filas `top` que podía cortar datos de segmentos en datasets grandes
+- **Soporte highlight**: Habilitado `supportsHighlight` para cross-highlight entre medidas
+
+### v1.0.0.17 (2026-08-13)
+- **Fix localización**: Recursos movidos a `stringResources/<locale>/resources.resjson` y empaquetados correctamente en el `.pbiviz`
+- **Fix panel de formato**: Tarjetas y propiedades usan `displayNameKey` para traducción nativa del panel
+- **Passing localizationManager** al `FormattingSettingsService`
+
 ### v1.0.0.16 (2026-08-13)
 - **Fix crítico selección**: Eliminada auto-selección al recibir datos filtrados (cross-filtering)
 - **Fix persistencia**: La selección interna solo cambia por interacción del usuario (click)
