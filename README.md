@@ -55,22 +55,6 @@ Visual personalizado de gráfico de radar (spider chart) con soporte para múlti
 2. En Power BI Desktop: `Insertar` → `Visual personalizado` → `Importar desde archivo`
 3. Seleccionar el archivo `.pbiviz` descargado
 
-## Desarrollo
-
-```bash
-# Instalar dependencias
-npm install
-
-# Desarrollo con live reload
-npm start
-
-# Compilar para producción
-npm run package
-
-# Linting
-npm run lint
-```
-
 ## Historial de versiones
 
 ### v1.0.0.18 (2026-08-13)
