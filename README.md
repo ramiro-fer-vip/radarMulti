@@ -6,13 +6,10 @@ Visual personalizado de gráfico de radar (spider chart) con soporte para múlti
 
 ![Total de puntos por categoría](Radar/Total%20Points%20-%20Category.png)
 
-# Radar Multi - Power BI Custom Visual
 
-Visual personalizado de gráfico de radar (spider chart) con soporte para múltiples segmentos y medidas.
+### Total de puntos por categoría - Segmento seleccionado
 
-### Total de puntos por categoría
-
-![Total de puntos por categoría](Radar/Total%20Points%20-%20Category.png)
+![Total de puntos por categoría](Radar/Total%20Points%20-%20Selected.png)
 
 ## Características principales
 
