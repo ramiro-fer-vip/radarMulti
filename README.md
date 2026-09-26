@@ -66,6 +66,12 @@ Visual personalizado de gráfico de radar (spider chart) con soporte para múlti
 
 ## Historial de versiones
 
+### v1.0.0.20 (2026-09-26)
+- **Fix cross-filtering a otros controles**: las identidades de selección del segmento ahora tienen alcance a la columna de segmento (sin medida). Antes eran por punto de dato con `withMeasure`, lo que solo filtraba otros radarMulti con la misma medida; ahora cualquier visual ligado a la columna de segmento se filtra al hacer clic en la barra
+- **Localización**: tooltip de segmento y mensaje de estado vacío ("asociar campos") ahora se traducen vía `Tooltip_Segment` y `Msg_Bind_Fields`
+- **Pulido FR/IT**: preposiciones en francés ("Données de catégorie", "Couleur de remplissage", …) y posiciones en italiano ("In basso", "A sinistra", …)
+- **Deuda técnica**: API actualizada a 5.11.1 (`powerbi-visuals-api`, `formattingmodel` 7.1.0), ESLint 10
+
 ### v1.0.0.18 (2026-08-13)
 - **Fix localización dropdowns**: Los valores de `Posición de barra`, `Posición de leyenda` y `Formato de valor` ahora se traducen correctamente (resolución de `Enum_*` vía `localizationManager`)
 - **Robustez**: Eliminado `null as any` en render de polígonos multi-segmento
