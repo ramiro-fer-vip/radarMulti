@@ -1,103 +1,145 @@
 # Radar Multi - Power BI Custom Visual
 
+*Read this document in [Español](README.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Italiano](README.it.md)*
+
 Custom radar chart (spider chart) visual with support for multiple segments and measures.
 
-### Total Points by Category
+### Total points by category
 
-![Total Points by Category](Radar/Total%20Points%20-%20Category.png)
+![Total points by category](Radar/Total%20Points%20-%20Category.png)
 
-## Main Features
+
+### Total points by category - Selected segment
+
+![Total points by category](Radar/Total%20Points%20-%20Selected.png)
+
+## Key features
 
 - **Interactive radar chart** with categorical axes and configurable grid levels
 - **Multi-segment support**: Compare multiple series (segments) in the same chart
-- **Multiple measures**: Display several measures simultaneously with an automatic legend
+- **Multi-measure**: Display several measures simultaneously with automatic legend
 - **Segment bar**: Bottom selector to filter by individual segment
 - **Native Power BI tooltips** with configurable value formatting
-- **Cross-selection** compatible with other report visuals
-- **High contrast** and full accessibility support
-- **Localization**: Spanish, English, Italian, French, and German
+- **Cross-filtering** compatible with other visuals in the report
+- **High contrast** and full accessibility
+- **Localization**: Spanish, English, Italian, French, German
 
-## Required Data Fields
+## Required data fields
 
 | Field | Type | Description |
 |------|------|-------------|
-| **Category** | Category | Radar axes, such as months or product categories |
-| **Segment** (optional) | Category | Series to compare, such as years or regions |
+| **Category** | Category | Radar axes (e.g. Months, Product categories) |
+| **Segment** (optional) | Category | Series to compare (e.g. Years, Regions) |
 | **Measure** | Value | Numeric value to plot |
 | **Label** (optional) | Category | Custom label for segments |
 
-## Format Configuration
+## Format settings
 
-### Radar Card
-
-- **Grid levels**: Number of concentric rings (1-10)
-- **Grid stroke width**: Thickness of grid lines
+### Radar card
+- **Grid levels**: Number of concentric rings (1-20)
+- **Grid stroke width**: Grid line thickness (0.1-10)
 - **Grid color/opacity**: Visual customization
 - **Fill/border color**: Default colors for single mode
-- **Show value labels**: Toggle values at vertices
-- **Use segment label**: Use a descriptive name instead of the technical key
-- **Bar position**: Bottom / Top / Hidden
+- **Show value labels**: Toggle values on vertices
+- **Use segment label**: Uses descriptive name vs technical key
+- **Bar position**: Bottom / Top / Left / Right / Hidden
 
-### Legend Card
-
+### Legend card
 - **Show legend**: On/Off
 - **Position**: Top / Bottom / Left / Right
 
-### Labels Card
-
-- **Category/value font size**: 8-24px
-- **Vertex radius**: Point size in the polygon
+### Labels card
+- **Category/value font size**: 6-72px
+- **Vertex radius**: Point size on polygon (0.5-30)
 - **Value format**: General / Integer / 1 decimal / 2 decimals
 
-## Selection Behavior
+## Selection behavior
 
-- **Click the segment bar**: Filters the chart to that segment and propagates the selection to other visuals
-- **Click the active segment**: Clears the selection and returns to the complete view
-- **External cross-filtering**: Respects filters from other visuals without persisting the internal selection
-- **Multiple instances**: Each visual maintains its own selection state
+- **Click on segment bar**: Filters the chart to that segment and propagates selection to other visuals
+- **Click on active segment**: Clears selection (back to full view)
+- **External cross-filtering**: Respects filters from other visuals without persisting internal selection
+- **Multiple instances**: Each visual keeps its own independent selection state
 
 ## Installation
 
-1. Download the `.pbiviz` file.
-2. In Power BI Desktop, select `Insert` → `Custom visual` → `Import from file`.
-3. Select the downloaded `.pbiviz` file.
+1. Download the `.pbiviz` file from [Releases](https://github.com/tu-usuario/radarMulti/releases)
+2. In Power BI Desktop: `Insert` → `Custom visual` → `Import from file`
+3. Select the downloaded `.pbiviz` file
 
-## Version History
+## Localization
+
+Language resources live in the `stringResources/<locale>/resources.resjson` folder and are referenced
+in the `stringResources` array of `pbiviz.json`. Each file is a `{ key: translated text }` map in UTF-8.
+
+```
+stringResources/
+  en-US/resources.resjson
+  es-ES/resources.resjson
+  it-IT/resources.resjson
+  fr-FR/resources.resjson
+  de-DE/resources.resjson
+```
+
+- Format pane cards and properties are translated with `displayNameKey` (`settings.ts` + `capabilities.json`).
+- Dropdown values (`Enum_*`) are resolved with `localizationManager.getDisplayName()` in `visual.ts`.
+- English (`en-US`) is the technical base; it must not be changed.
+
+To see language changes in Power BI: import the `.pbiviz`, change the app language, restart
+Power BI and replace the visual on the canvas.
+
+## Development
+
+```bash
+# Install dependencies
+npm install
+
+# Development with live reload
+npm start
+
+# Build for production
+npm run package
+
+# Linting
+npm run lint
+```
+
+## Version history
+
+### v1.0.0.20 (2026-09-26)
+- **Fix cross-filtering to other controls**: segment selection identities are now scoped to the segment column (no measure). They used to be per data point with `withMeasure`, which only filtered other radarMulti instances sharing the same measure; now any visual bound to the segment column is filtered when clicking the bar
+- **Localization**: segment tooltip and empty-state message ("bind fields") are now translated via `Tooltip_Segment` and `Msg_Bind_Fields`
+- **FR/IT polish**: French prepositions ("Données de catégorie", "Couleur de remplissage", …) and Italian positions ("In basso", "A sinistra", …)
+- **Tech debt**: API updated to 5.11.1 (`powerbi-visuals-api`, `formattingmodel` 7.1.0), ESLint 10
 
 ### v1.0.0.18 (2026-08-13)
-
-- **Dropdown localization fix**: Values for `Bar position`, `Legend position`, and `Value format` are now translated correctly through `localizationManager`.
-- **Robustness**: Removed `null as any` from multi-segment polygon rendering.
-- **dataReductionAlgorithm fix**: Removed the `top` row limit that could truncate segment data in large datasets.
-- **Highlight support**: Enabled `supportsHighlight` for cross-highlighting between measures.
+- **Fix dropdown localization**: `Bar position`, `Legend position` and `Value format` values now translate correctly (`Enum_*` resolution via `localizationManager`)
+- **Robustness**: Removed `null as any` in multi-segment polygon rendering
+- **Fix dataReductionAlgorithm**: Removed the `top` row limit that could cut segment data in large datasets
+- **Fix cross-filtering**: Restored selection propagation between radarMulti instances. `supportsHighlight` was discarded because it switches selection to cross-highlight (which the visual does not render), breaking cross-filtering by segment
 
 ### v1.0.0.17 (2026-08-13)
-
-- **Localization fix**: Resources moved to `stringResources/<locale>/resources.resjson` and correctly packaged in the `.pbiviz` file.
-- **Format pane fix**: Cards and properties use `displayNameKey` for native format pane translation.
-- **Passing localizationManager** to `FormattingSettingsService`.
+- **Fix localization**: Resources moved to `stringResources/<locale>/resources.resjson` and correctly packaged into the `.pbiviz`
+- **Fix format pane**: Cards and properties use `displayNameKey` for native pane translation
+- **Passing localizationManager** to the `FormattingSettingsService`
 
 ### v1.0.0.16 (2026-08-13)
-
-- **Critical selection fix**: Removed automatic selection when receiving filtered data through cross-filtering.
-- **Persistence fix**: Internal selection now changes only through user interaction by clicking.
-- **Segment bar fix**: The bar is now visible with a single segment for visual identification.
-- **Rendering fix**: Displays the complete view (`renderAllSegments`) when there is no internal selection.
-- **Metadata update**: Source URL updated to OpenCode.
+- **Critical selection fix**: Removed auto-selection when receiving filtered data (cross-filtering)
+- **Fix persistence**: Internal selection only changes on user interaction (click)
+- **Fix segment bar**: Now visible with a single segment for visual identification
+- **Fix rendering**: Full view (`renderAllSegments`) when there is no internal selection
+- **Metadata update**: Source URL updated to OpenCode
 
 ### v1.0.0.15
-
 - Multi-language support (ES, EN, IT, FR, DE)
-- High-contrast improvements
+- High contrast improvements
 - Tooltip optimization
 
 ### v1.0.0.14
-
-- Base version with complete multi-segment radar functionality
+- Base version with full multi-segment radar functionality
 
 ## License
 
-MIT License - See the [LICENSE](LICENSE) file for details.
+MIT License - See [LICENSE](LICENSE) file for details.
 
 ## Author
 
