@@ -39,7 +39,9 @@ Custom radar chart (spider chart) visual with support for multiple segments and 
 - **Grid levels**: Number of concentric rings (1-20)
 - **Grid stroke width**: Grid line thickness (0.1-10)
 - **Grid color/opacity**: Visual customization
+- **Color by**: Segment (default) or Measure; by measure, segments are distinguished by shape (circle, square, triangle, diamond)
 - **Fill/border color**: Default colors for single mode
+- **Proportional auto-fit**: Center and radius adapt to visible labels to fill the area without clipping
 - **Show value labels**: Toggle values on vertices
 - **Use segment label**: Uses descriptive name vs technical key
 - **Bar position**: Bottom / Top / Left / Right / Hidden
@@ -47,6 +49,7 @@ Custom radar chart (spider chart) visual with support for multiple segments and 
 ### Legend card
 - **Show legend**: On/Off
 - **Position**: Top / Bottom / Left / Right
+- **Filter by measure**: Clicking the legend filters the chart to that measure (multi-measure; second click clears)
 
 ### Labels card
 - **Category/value font size**: 6-72px
@@ -104,6 +107,26 @@ npm run lint
 ```
 
 ## Version history
+
+### v1.0.0.26 (2026-09-30)
+- **Segments-only bar**: no longer combines segment-measure; clicking filters the segment across all measures
+- **New Color by switch**: Segment (default, current colors) or Measure (same color per measure with distinct shape per segment: circle, square, triangle, diamond)
+
+### v1.0.0.25 (2026-09-30)
+- **Fix multi-measure legend**: Show Legend shows a single entry per Measure Data (previously one per segment × measure); clicking the measure filters the chart to that dimension, second click clears the filter
+
+### v1.0.0.24 (2026-09-30)
+- **Proportional auto-fit**: manual zoom slider removed; center and radius are computed per view (all segments or selected segment) maximizing size with labels always inside the area, no unnecessary whitespace
+
+### v1.0.0.23 (2026-09-30)
+- **New Radar zoom control**: slider on the Radar card (20-400%, 180% by default) scaling the radius over the auto-fitted size; lets you enlarge the chart when auto-fit leaves it small
+
+### v1.0.0.22 (2026-09-30)
+- **Fix small chart**: padding is now computed from real text measurement (canvas `measureText`) instead of per-character estimation, and fixed gaps were reduced; with short labels the radar fills the available area again
+
+### v1.0.0.21 (2026-09-30)
+- **Fix long labels**: category labels wrap into up to 3 lines (word-wrap, never splitting words) and the chart padding is computed dynamically from the text, so labels stay inside the diagram area
+- **Fix default values**: `localizeDropdownItems()` now also translates the current `value` of dropdowns (`Value format`, `Bar position`, `Legend position`); the pane previously could not match the selected value and showed the field blank
 
 ### v1.0.0.20 (2026-09-26)
 - **Fix cross-filtering to other controls**: segment selection identities are now scoped to the segment column (no measure). They used to be per data point with `withMeasure`, which only filtered other radarMulti instances sharing the same measure; now any visual bound to the segment column is filtered when clicking the bar

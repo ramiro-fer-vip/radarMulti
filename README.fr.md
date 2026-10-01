@@ -39,7 +39,9 @@ Visuel personnalisé de graphique radar (spider chart) prenant en charge plusieu
 - **Niveaux de grille** : nombre d'anneaux concentriques (1-20)
 - **Largeur de ligne de grille** : épaisseur des lignes de grille (0.1-10)
 - **Couleur/opacité de grille** : personnalisation visuelle
+- **Colorer par** : Segment (défaut) ou Mesure ; par mesure, les segments se distinguent par la forme (cercle, carré, triangle, losange)
 - **Couleur de remplissage/contour** : couleurs par défaut pour le mode unique
+- **Ajustement proportionnel auto** : le centre et le rayon s'adaptent aux étiquettes visibles pour remplir la zone sans rognage
 - **Afficher les étiquettes de valeur** : afficher/masquer les valeurs aux sommets
 - **Utiliser l'étiquette de segment** : utilise le nom descriptif plutôt que la clé technique
 - **Position de barre** : Bas / Haut / Gauche / Droite / Masqué
@@ -47,6 +49,7 @@ Visuel personnalisé de graphique radar (spider chart) prenant en charge plusieu
 ### Carte Légende
 - **Afficher la légende** : Oui/Non
 - **Position** : Haut / Bas / Gauche / Droite
+- **Filtrer par mesure** : un clic sur la légende filtre le graphique sur cette mesure (multi-mesure ; second clic efface)
 
 ### Carte Étiquettes
 - **Taille de police catégorie/valeur** : 6-72px
@@ -104,6 +107,26 @@ npm run lint
 ```
 
 ## Historique des versions
+
+### v1.0.0.26 (2026-09-30)
+- **Barre segments uniquement** : plus de combinaison segment-mesure ; le clic filtre le segment sur toutes les mesures
+- **Nouveau réglage Colorer par** : Segment (défaut, couleurs actuelles) ou Mesure (même couleur par mesure avec forme distincte par segment : cercle, carré, triangle, losange)
+
+### v1.0.0.25 (2026-09-30)
+- **Correctif légende multi-mesure** : Afficher la légende montre une seule entrée par données de mesure (auparavant une par segment × mesure) ; un clic sur la mesure filtre le graphique sur cette dimension, second clic efface le filtre
+
+### v1.0.0.24 (2026-09-30)
+- **Ajustement proportionnel auto** : curseur de zoom manuel supprimé ; le centre et le rayon sont calculés par vue (tous les segments ou segment sélectionné) en maximisant la taille avec les étiquettes toujours dans la zone, sans espace blanc inutile
+
+### v1.0.0.23 (2026-09-30)
+- **Nouveau contrôle Zoom du radar** : curseur sur la carte Radar (20-400 %, 180 % par défaut) qui met le rayon à l'échelle de la taille auto-ajustée ; permet d'agrandir le graphique quand l'ajustement automatique le laisse petit
+
+### v1.0.0.22 (2026-09-30)
+- **Correctif graphique petit** : la marge est désormais calculée d'après la mesure réelle du texte (canvas `measureText`) au lieu d'une estimation par caractère, et les espaces fixes ont été réduits ; avec des étiquettes courtes le radar remplit de nouveau la zone disponible
+
+### v1.0.0.21 (2026-09-30)
+- **Correctif étiquettes longues** : les étiquettes de catégorie passent sur jusqu'à 3 lignes (retour à la ligne sans couper les mots) et la marge du graphique est calculée dynamiquement d'après le texte, pour qu'elles restent dans la zone du diagramme
+- **Correctif valeurs par défaut** : `localizeDropdownItems()` traduit désormais aussi le `value` actuel des listes (`Format de valeur`, `Position de barre`, `Position de légende`) ; le volet ne trouvait pas la valeur sélectionnée et affichait le champ vide
 
 ### v1.0.0.20 (2026-09-26)
 - **Correctif filtrage croisé vers d'autres contrôles** : les identités de sélection du segment sont désormais limitées à la colonne de segment (sans mesure). Auparavant elles étaient par point de données avec `withMeasure`, ce qui ne filtrait que les autres instances radarMulti partageant la même mesure ; désormais tout visuel lié à la colonne de segment est filtré au clic sur la barre

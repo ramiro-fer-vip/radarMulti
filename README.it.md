@@ -39,7 +39,9 @@ Oggetto visivo personalizzato di grafico radar (spider chart) con supporto per p
 - **Livelli griglia**: numero di anelli concentrici (1-20)
 - **Larghezza linea griglia**: spessore delle linee di griglia (0.1-10)
 - **Colore/opacità griglia**: personalizzazione visiva
+- **Colora per**: Segmento (predefinito) o Misura; per misura i segmenti si distinguono per forma (cerchio, quadrato, triangolo, rombo)
 - **Colore riempimento/bordo**: colori predefiniti per la modalità singola
+- **Adattamento proporzionale auto**: centro e raggio si adattano alle etichette visibili per riempire l'area senza ritagli
 - **Mostra etichette valore**: mostra/nascondi i valori sui vertici
 - **Usa etichetta segmento**: usa il nome descrittivo invece della chiave tecnica
 - **Posizione barra**: In basso / In alto / A sinistra / A destra / Nascosto
@@ -47,6 +49,7 @@ Oggetto visivo personalizzato di grafico radar (spider chart) con supporto per p
 ### Scheda Legenda
 - **Mostra legenda**: Sì/No
 - **Posizione**: In alto / In basso / A sinistra / A destra
+- **Filtra per misura**: il clic sulla legenda filtra il grafico su quella misura (multi-misura; secondo clic cancella)
 
 ### Scheda Etichette
 - **Dimensione carattere categoria/valore**: 6-72px
@@ -104,6 +107,26 @@ npm run lint
 ```
 
 ## Cronologia delle versioni
+
+### v1.0.0.26 (2026-09-30)
+- **Barra solo segmenti**: niente più combinazione segmento-misura; il clic filtra il segmento su tutte le misure
+- **Nuova opzione Colora per**: Segmento (predefinito, colori attuali) o Misura (stesso colore per misura con forma distinta per segmento: cerchio, quadrato, triangolo, rombo)
+
+### v1.0.0.25 (2026-09-30)
+- **Fix legenda multi-misura**: Mostra legenda mostra un'unica voce per dati di misura (prima una per segmento × misura); il clic sulla misura filtra il grafico su quella dimensione, secondo clic cancella il filtro
+
+### v1.0.0.24 (2026-09-30)
+- **Adattamento proporzionale auto**: cursore di zoom manuale rimosso; centro e raggio sono calcolati per vista (tutti i segmenti o segmento selezionato) massimizzando la dimensione con le etichette sempre dentro l'area, senza spazio bianco inutile
+
+### v1.0.0.23 (2026-09-30)
+- **Nuovo controllo Zoom radar**: cursore sulla scheda Radar (20-400%, 180% predefinito) che scala il raggio sulla dimensione auto-adattata; permette di ingrandire il grafico quando l'adattamento automatico lo lascia piccolo
+
+### v1.0.0.22 (2026-09-30)
+- **Fix grafico piccolo**: il padding ora è calcolato dalla misura reale del testo (canvas `measureText`) invece della stima per caratteri, e gli spazi fissi sono stati ridotti; con etichette corte il radar riempie di nuovo l'area disponibile
+
+### v1.0.0.21 (2026-09-30)
+- **Fix etichette lunghe**: le etichette di categoria vanno a capo fino a 3 righe (word-wrap senza spezzare le parole) e il padding del grafico è calcolato dinamicamente dal testo, così restano dentro l'area del diagramma
+- **Fix valori predefiniti**: `localizeDropdownItems()` ora traduce anche il `value` attuale dei menu a discesa (`Formato valore`, `Posizione barra`, `Posizione legenda`); prima il riquadro non trovava il valore selezionato e mostrava il campo vuoto
 
 ### v1.0.0.20 (2026-09-26)
 - **Fix filtro incrociato verso altri controlli**: le identità di selezione del segmento ora sono limitate alla colonna di segmento (senza misura). Prima erano per punto dati con `withMeasure`, il che filtrava solo le altre istanze radarMulti con la stessa misura; ora qualsiasi oggetto visivo legato alla colonna di segmento viene filtrato al clic sulla barra

@@ -39,7 +39,9 @@ Benutzerdefiniertes Radar-Diagramm (Spider-Chart) mit Unterstützung für mehrer
 - **Gitterebenen**: Anzahl konzentrischer Ringe (1-20)
 - **Gitterlinienbreite**: Linienstärke des Gitters (0.1-10)
 - **Gitterfarbe/-deckkraft**: Visuelle Anpassung
+- **Färben nach**: Segment (Standard) oder Messwert; nach Messwert werden Segmente durch Form unterschieden (Kreis, Quadrat, Dreieck, Raute)
 - **Füll-/Randfarbe**: Standardfarben für den Einzelmodus
+- **Proportionale Auto-Anpassung**: Mittelpunkt und Radius passen sich an die sichtbaren Beschriftungen an und füllen die Fläche ohne Abschneiden
 - **Wertebeschriftungen anzeigen**: Werte an Eckpunkten ein-/ausblenden
 - **Segmentbeschriftung verwenden**: Beschreibenden Namen vs. technischen Schlüssel verwenden
 - **Leistenposition**: Unten / Oben / Links / Rechts / Ausgeblendet
@@ -47,6 +49,7 @@ Benutzerdefiniertes Radar-Diagramm (Spider-Chart) mit Unterstützung für mehrer
 ### Legenden-Karte
 - **Legende anzeigen**: Ein/Aus
 - **Position**: Oben / Unten / Links / Rechts
+- **Nach Measure filtern**: Klick auf die Legende filtert das Diagramm auf dieses Measure (Multi-Measure; zweiter Klick hebt auf)
 
 ### Beschriftungs-Karte
 - **Kategorie-/Werteschriftgröße**: 6-72px
@@ -104,6 +107,26 @@ npm run lint
 ```
 
 ## Versionsverlauf
+
+### v1.0.0.26 (2026-09-30)
+- **Leiste nur mit Segmenten**: keine Segment-Measure-Kombination mehr; Klick filtert das Segment über alle Measures
+- **Neue Steuerung Färben nach**: Segment (Standard, aktuelle Farben) oder Messwert (gleiche Farbe pro Messwert mit eigener Form pro Segment: Kreis, Quadrat, Dreieck, Raute)
+
+### v1.0.0.25 (2026-09-30)
+- **Fix Multi-Measure-Legende**: Legende anzeigen zeigt einen einzigen Eintrag pro Measure-Daten (zuvor einen pro Segment × Measure); Klick auf das Measure filtert das Diagramm auf diese Dimension, zweiter Klick hebt den Filter auf
+
+### v1.0.0.24 (2026-09-30)
+- **Proportionale Auto-Anpassung**: manueller Zoom-Regler entfernt; Mittelpunkt und Radius werden pro Ansicht (alle Segmente oder gewähltes Segment) berechnet und maximieren die Größe, Beschriftungen bleiben stets in der Fläche, ohne unnötigen Leerraum
+
+### v1.0.0.23 (2026-09-30)
+- **Neue Steuerung Radarzoom**: Regler auf der Radar-Karte (20-400 %, 180 % Standard), der den Radius über die automatisch angepasste Größe skaliert; vergrößert das Diagramm, wenn die Auto-Anpassung es zu klein lässt
+
+### v1.0.0.22 (2026-09-30)
+- **Fix kleines Diagramm**: Das Padding wird jetzt aus echter Textmessung (Canvas `measureText`) statt Zeichenschätzung berechnet, und feste Abstände wurden reduziert; bei kurzen Beschriftungen füllt das Radar wieder die verfügbare Fläche
+
+### v1.0.0.21 (2026-09-30)
+- **Fix lange Beschriftungen**: Kategoriebeschriftungen werden in bis zu 3 Zeilen umbrochen (Word-Wrap, ohne Worttrennung), und das Diagramm-Padding wird dynamisch aus dem Text berechnet, sodass Beschriftungen innerhalb der Diagrammfläche bleiben
+- **Fix Standardwerte**: `localizeDropdownItems()` übersetzt jetzt auch den aktuellen `value` der Dropdowns (`Wertformat`, `Leistenposition`, `Legendenposition`); zuvor konnte der Bereich den gewählten Wert nicht zuordnen und zeigte das Feld leer an
 
 ### v1.0.0.20 (2026-09-26)
 - **Fix Kreuzfilterung zu anderen Steuerelementen**: Segment-Auswahlidentitäten sind jetzt auf die Segmentspalte beschränkt (ohne Measure). Zuvor waren sie pro Datenpunkt mit `withMeasure`, wodurch nur andere radarMulti-Instanzen mit demselben Measure gefiltert wurden; jetzt wird jedes an die Segmentspalte gebundene Visual beim Klicken auf die Leiste gefiltert
